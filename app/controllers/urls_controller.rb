@@ -25,7 +25,7 @@ skip_before_action :verify_authenticity_token
     if @url
       render status: :ok, json: { original: @url.original }
     else
-      render status: :not_found
+      render status: :not_found, json: { errors: "Not found" }
     end
   end
 
