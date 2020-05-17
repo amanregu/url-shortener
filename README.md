@@ -1,24 +1,37 @@
-# README
+# URL-Shortener build on RoR 6.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+1. Clone the repository.
 
-* Ruby version
+```sh
+$ git clone https://github.com/amanregu/url-shortener.git
+```
 
-* System dependencies
+2. Go to the url-shortner directory
+```sh
+$ cd url-shortner
+```
 
-* Configuration
+3. Install dependencies.
+```sh
+$ bundle install
+$ yarn install --check-files
+```
 
-* Database creation
+4. Create and migrate database.
+```sh
+$ rails db:create db:migrate db:setup
+```
 
-* Database initialization
 
-* How to run the test suite
+## Rake tasks.
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The following line will print the encoded url in the terminal
+```sh
+$ URL=https://bigbinary.com/jobs bundle exec rake app:encode
+```
+The following line will print the original url when provided with a short-url.
+```sh
+$ SHORTURL=https://short.is/tkLo2367 bundle exec rake app:decode 
+```
