@@ -1,9 +1,5 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  original: MyString
-  slug: MyString
-
-two:
-  original: MyString
-  slug: MyString
+  original: "https://github.com"
+  slug: "S2DA7F2X"
