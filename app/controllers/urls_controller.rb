@@ -7,7 +7,7 @@ skip_before_action :verify_authenticity_token
   end
 
   def update
-    @url = Url.find_by(slug:url_params[:slug])
+    @url = Url.find_by_slug(params[:slug])
       if @url
         if @url.update(is_pinned: url_params[:is_pinned])
           render status: :ok, json: { urls: fetch_urls }
@@ -21,8 +21,8 @@ skip_before_action :verify_authenticity_token
   
   
 
-  def encode
-    @url = Url.find_by(url_params)
+  def create
+    @url = Url.find_by_original(params[:original])
 
     if @url 
       render status: :ok, json: { slug: @url.slug }
@@ -39,8 +39,8 @@ skip_before_action :verify_authenticity_token
     end
   end
 
-  def decode
-    @url = Url.find_by(url_params)
+  def show
+    @url = Url.find_by_slug(params[:slug])
 
     if @url
       render status: :ok, json: { original: @url.original }
@@ -52,7 +52,7 @@ skip_before_action :verify_authenticity_token
 
   private
     def url_params
-      params.require(:url).permit(:original, :slug, :is_pinned)
+      params.require(:url).permit(:original, :is_pinned)
     end
 
     def fetch_urls
