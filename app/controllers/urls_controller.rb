@@ -3,6 +3,7 @@ skip_before_action :verify_authenticity_token
 
 
   def index
+    @urls = Url.order(created_at: :desc)
   end
   
 
