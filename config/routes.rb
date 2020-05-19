@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  post '/create' => "urls#encode"
-  get '/show' => "urls#decode"
-  resources :urls, only: [:index, :update, :patch]
+  root "urls#index"
+  resources :urls, only: [:index, :create, :show, :update], param: :slug
 end
