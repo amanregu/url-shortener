@@ -3,8 +3,22 @@ skip_before_action :verify_authenticity_token
 
 
   def index
-    @urls = Url.order(created_at: :desc)
+    @urls = Url.order(is_pinned: :desc, updated_at: :desc)
   end
+
+  def update
+    @url = Url.find_by(slug:url_params[:slug])
+      if @url
+        if @url.update(is_pinned: url_params[:is_pinned])
+          render status: :ok, json: { urls: fetch_urls }
+        else
+        render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
+        end
+      else
+        render status: :not_found, json: { errors: @url.errors.full_messages }
+      end
+  end
+  
   
 
   def encode
@@ -38,6 +52,10 @@ skip_before_action :verify_authenticity_token
 
   private
     def url_params
-      params.require(:url).permit(:original, :slug)
+      params.require(:url).permit(:original, :slug, :is_pinned)
+    end
+
+    def fetch_urls
+      @urls = Url.order(is_pinned: :desc, updated_at: :desc)
     end
 end
