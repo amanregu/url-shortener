@@ -5,7 +5,7 @@ const List = ( props ) => {
   const [urls, setUrls] = useState(props.urls)
 
   const handleClick = (slug, is_pinned) => {
-    fetch("/urls/update/", {
+    fetch(`/urls/${slug}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
