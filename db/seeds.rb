@@ -1,7 +1,21 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+urls = [
+  "eepurl.com",
+  "shareasale.com",
+  "https://github.com/",
+  "https://altcampus.io",
+  "https://linkedin.com",
+  "https://webnode.com",
+  "https://reddit.com",
+  "https://slack.com",
+  "https://zoom.com",
+  "https://webs.com"
+]
+
+if !Url.any?
+
+  urls.each do |url|
+    @url = Url.new(original: url)
+    @url.generate_slug
+    @url.save
+  end
+end
