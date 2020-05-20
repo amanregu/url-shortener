@@ -21,7 +21,7 @@ const List = (props) => {
   }
   return (
     <>
-      <h1 className="text-center" >List Of Shorted URLs</h1>
+      <h1 className="text-center" >List Of Shortened URLs</h1>
       <div className="container" >
         <table className="table table-bordered">
           <thead className="thead-dark" >
