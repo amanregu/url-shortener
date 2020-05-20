@@ -23,14 +23,21 @@ const List = (props) => {
     <>
       <h1 className="text-center" >List Of Shorted URLs</h1>
       <div className="container" >
-        <table className="table">
+        <table className="table table-bordered">
+          <thead className="thead-dark" >
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Original URL</th>
+              <th scope="col">Short URL</th>
+            </tr>
+          </thead>
           {urls.map((url) => {
             const shorted_url = `https://short.is/${url.slug}`
             return (
               <>
                 <tbody>
                   <tr>
-                    <td onClick={() => handleClick(url.slug, url.is_pinned)}>
+                    <td style={{ cursor: 'pointer' }}  onClick={() => handleClick(url.slug, url.is_pinned)}>
                       <Pin isPinned={url.is_pinned} />
                     </td>
                     <td className="col">
