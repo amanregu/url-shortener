@@ -3,8 +3,12 @@ import React, { useState } from 'react'
 const Card = (props) => {
   const [categories, setCategories] = useState(props.categories)
   const [title, setTitle] = useState();
+  const [modalStatus, setModalStatus] = useState(false)
+  const [currentId, setCurrentId] = useState();
+  const [currentCategory, setCurrentCategory] = useState();
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault();
     fetch(`/categories/`, {
       method: 'POST',
       headers: {
@@ -17,11 +21,6 @@ const Card = (props) => {
     }).then(res => res.json()).then(res => setCategories(res.categories)).then(setTitle(""))
   }
 
-  const handleSumbit = (e) => {
-    e.preventDefault();
-    submitForm()
-  }
-
   const handleDelete = (id) => {
     fetch(`categories/${id}`, {
       method: 'DELETE',
@@ -32,11 +31,48 @@ const Card = (props) => {
     }).then(res => res.json()).then(res => setCategories(res.categories))
   }
 
+  const handleEdit = (id, title) => {
+    setCurrentId(id)
+    setCurrentCategory(title)
+    setModalStatus(true)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    fetch(`/categories/${currentId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+      },
+      body: JSON.stringify({
+        "title": currentCategory
+      })
+    }).then(res => res.json()).then(res => setCategories(res.categories)).then( setModalStatus(false))
+  }
+
   return (
     <>
       <div>
+        {modalStatus ? (
+          <div>
+            <div className="modal-dialog modal-dialog-centered" role="document" >
+              <div className="modal-content">
+                <div className="modal-body" >
+                  <form onSubmit={(e) => handleSubmit(e)} >
+                    <div className="d-flex flex-row justify-content-between">
+                      <label>
+                        <input className="form-control" type="text" value={currentCategory} onChange={e => setCurrentCategory(e.target.value)} name="title" />
+                      </label>
+                      <input className="btn btn-success" type="submit" value="Update" />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>) : (<div></div>)}
         <div className="form-container text-center">
-          <form onSubmit={(e) => handleSumbit(e)} >
+          <form onSubmit={(e) => submitForm(e)} >
             <label>
               <input className="form-control" type="text" value={title} onChange={e => setTitle(e.target.value)} name="title" placeholder="e.g Education" />
             </label>
@@ -65,7 +101,7 @@ const Card = (props) => {
                         <h4>{category.title}</h4>
                       </td>
                       <td className="col">
-                        <a>Edit</a>
+                        <a onClick={() => handleEdit(category.id, category.title)} >Edit</a>
                       </td>
                       <td className="col">
                         <a onClick={() => handleDelete(category.id)} >Delete</a>
