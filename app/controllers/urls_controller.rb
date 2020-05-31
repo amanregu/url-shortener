@@ -4,12 +4,13 @@ skip_before_action :verify_authenticity_token
 
   def index
     @urls = Url.order(is_pinned: :desc, updated_at: :desc)
+    @categories = Category.order(updated_at: :desc)
   end
 
   def update
     @url = Url.find_by_slug(params[:slug])
       if @url
-        if @url.update(is_pinned: url_params[:is_pinned])
+        if @url.update(url_params)
           render status: :ok, json: { urls: fetch_urls }
         else
         render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
@@ -52,7 +53,7 @@ skip_before_action :verify_authenticity_token
 
   private
     def url_params
-      params.require(:url).permit(:original, :is_pinned)
+      params.require(:url).permit(:original, :is_pinned, :category_id)
     end
 
     def fetch_urls

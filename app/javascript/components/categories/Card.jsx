@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { NavLink, BrowserRouter as Router } from 'react-router-dom'
 
 const Card = (props) => {
   const [categories, setCategories] = useState(props.categories)
@@ -48,7 +49,7 @@ const Card = (props) => {
       body: JSON.stringify({
         "title": currentCategory
       })
-    }).then(res => res.json()).then(res => setCategories(res.categories)).then( setModalStatus(false))
+    }).then(res => res.json()).then(res => setCategories(res.categories)).then(setModalStatus(false))
   }
 
   return (
@@ -82,7 +83,9 @@ const Card = (props) => {
         <div className="container" >
           <div className="d-flex flex-row justify-content-between" >
             <h1 >List of Categories</h1>
-            <h2 style={{ cursor: 'pointer' }} >Manage URLs</h2>
+              <NavLink to="/">
+                <h2 style={{ cursor: 'pointer' }} >Manage URLs</h2>
+              </NavLink>
           </div>
           <table className="table table-bordered">
             <thead className="thead-dark" >
