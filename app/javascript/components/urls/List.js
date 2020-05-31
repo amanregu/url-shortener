@@ -62,7 +62,7 @@ const List = (props) => {
             const shorted_url = `https://short.is/${url.slug}`
             return (
               <>
-                <tbody>
+                <tbody key={url.id}>
                   <tr>
                     <td style={{ cursor: 'pointer' }} onClick={() => handleClick(url.slug, url.is_pinned)}>
                       <Pin isPinned={url.is_pinned} />
@@ -79,7 +79,7 @@ const List = (props) => {
                           {categories.map((category) => {
                             return (
                               <>
-                                <option value={category.id}>
+                                <option key={category.id} value={category.id}>
                                   {category.title}
                                 </option>
                               </>
