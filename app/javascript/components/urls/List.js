@@ -1,10 +1,12 @@
 import React, { useState } from "react"
+import { NavLink, BrowserRouter as Router } from "react-router-dom"
+
 import Pin from "./Pin"
 
 const List = (props) => {
   const [urls, setUrls] = useState(props.urls)
   const [categories] = useState(props.categories)
-  console.log(urls)
+  console.log(props)
   console.log(categories)
 
   const handleClick = (slug, is_pinned) => {
@@ -42,8 +44,10 @@ const List = (props) => {
     <>
       <div className="container" >
         <div className="d-flex flex-row justify-content-between" >
-          <h1 className="text-center" >List Of Shortened URLs</h1>
-          <a>Manage Categories</a>
+          <h1 >List Of Shortened URLs</h1>
+            <NavLink to="/categories">
+              <h2>Mange Categories</h2>
+            </NavLink>
         </div>
         <table className="table table-bordered">
           <thead className="thead-dark" >
