@@ -1,5 +1,5 @@
 class Api::V1::UrlsController < ApplicationController
-skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
 
   def index
     @urls = Url.order(is_pinned: :desc, updated_at: :desc)
@@ -13,7 +13,7 @@ skip_before_action :verify_authenticity_token
       if @url.update(url_params)
         render status: :ok, json: { urls: fetch_urls }
       else
-      render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
+        render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
       end
     else
       render status: :not_found, json: { errors: @url.errors.full_messages }
@@ -23,13 +23,13 @@ skip_before_action :verify_authenticity_token
   def create
     @url = Url.find_by_original(params[:original])
 
-    if @url 
+    if @url
       render status: :ok, json: { slug: @url.slug }
     else
       @url = Url.new(url_params)
       @url.generate_slug
       if @url.save
-        render status: 	:created, json: { slug: @url.slug }
+        render status:	:created, json: { slug: @url.slug }
       else
         render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
       end
@@ -47,12 +47,12 @@ skip_before_action :verify_authenticity_token
   end
 
   private
-  
-    def url_params
-      params.require(:url).permit(:original, :is_pinned, :category_id)
-    end
 
-    def fetch_urls
-      @urls = Url.order(is_pinned: :desc, updated_at: :desc)
-    end
+  def url_params
+    params.require(:url).permit(:original, :is_pinned, :category_id)
+  end
+
+  def fetch_urls
+    @urls = Url.order(is_pinned: :desc, updated_at: :desc)
+  end
 end

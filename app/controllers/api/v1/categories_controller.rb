@@ -23,11 +23,11 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def update
-      if @category.update(category_params)
-        render :show, status: :ok, json: { categories: @categories }
-      else
-        render status: :unprocessable_entity, json: { errors: @category.errors.full_message }
-      end
+    if @category.update(category_params)
+      render :show, status: :ok, json: { categories: @categories }
+    else
+      render status: :unprocessable_entity, json: { errors: @category.errors.full_message }
+    end
   end
 
   def destroy
@@ -40,15 +40,15 @@ class Api::V1::CategoriesController < ApplicationController
 
   private
 
-    def set_category
-      @category = Category.find(params[:id])
-    end
+  def set_category
+    @category = Category.find(params[:id])
+  end
 
-    def fetch_categories
-      @categories = Category.order(created_at: :desc)
-    end
+  def fetch_categories
+    @categories = Category.order(created_at: :desc)
+  end
 
-    def category_params
-      params.require(:category).permit(:title)
-    end
+  def category_params
+    params.require(:category).permit(:title)
+  end
 end
