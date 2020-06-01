@@ -7,6 +7,7 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @categories = Category.order(created_at: :desc)
+    render status: :ok, json: { categories: @categories }
   end
 
   # GET /categories/1
