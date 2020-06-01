@@ -1,4 +1,4 @@
-class CategoriesController < ApplicationController
+class Api::V1::CategoriesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_category, only: [:show, :edit, :update, :destroy]
   before_action :fetch_categories, only: [:create, :update, :destroy]

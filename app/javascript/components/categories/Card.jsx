@@ -10,7 +10,7 @@ const Card = (props) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    fetch(`/categories/`, {
+    fetch(`/api/v1/categories/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ const Card = (props) => {
   }
 
   const handleDelete = (id) => {
-    fetch(`categories/${id}`, {
+    fetch(`/api/v1/categories/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const Card = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch(`/categories/${currentId}`, {
+    fetch(`/api/v1/categories/${currentId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

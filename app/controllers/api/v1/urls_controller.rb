@@ -1,4 +1,4 @@
-class UrlsController < ApplicationController
+class Api::V1::UrlsController < ApplicationController
 skip_before_action :verify_authenticity_token
 
   def index

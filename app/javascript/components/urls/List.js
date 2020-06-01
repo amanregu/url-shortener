@@ -10,7 +10,7 @@ const List = (props) => {
   console.log(categories)
 
   useEffect(() => {
-    fetch(`/categories`, {
+    fetch(`/api/v1/categories`, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
@@ -19,7 +19,7 @@ const List = (props) => {
   }, [])
 
   const handleClick = (slug, is_pinned) => {
-    fetch(`/urls/${slug}`, {
+    fetch(`/api/v1/urls/${slug}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const List = (props) => {
   }
 
   const updateCategory = (e, slug) => {
-    fetch(`/urls/${slug}`, {
+    fetch(`/api/v1/urls/${slug}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

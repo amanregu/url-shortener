@@ -3,7 +3,7 @@ namespace :app do
 
   desc "generate encoded url"
   task encode: :environment do
-    session.post "https://localhost:3000/urls", params: { "url": { original: ENV['URL']  }}
+    session.post "https://localhost:3000/api/v1/urls", params: { "url": { original: ENV['URL']  }}
     response = JSON.parse(session.response.body)
     status_code = session.response.status
 
@@ -17,7 +17,7 @@ namespace :app do
   desc "generate decoded url"
     task decode: :environment do
       slug = ENV['SHORTURL'].last(8)
-      session.get "https://localhost:3000/urls/#{slug}"
+      session.get "https://localhost:3000/api/v1/urls/#{slug}"
       response = JSON.parse(session.response.body)
       status_code = session.response.status
 

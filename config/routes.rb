@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :categories
-  root "urls#index"
-  resources :urls, only: [:index, :create, :show, :update], param: :slug
+  namespace :api do
+    namespace :v1 do
+      resources :categories, only: [:index, :create, :update, :destroy]
+      resources :urls, only: [:index, :create, :show, :update], param: :slug
+    end
+  end
+  root "api/v1/urls#index"
+  get '/*path' => 'api/v1/urls#index'
 end
