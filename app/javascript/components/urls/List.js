@@ -80,8 +80,8 @@ const List = (props) => {
                       <a href={url.original} target="_blank" >{url.original}</a>
                     </td>
                     <td className="col">
-                      <div>
-                        <select onChange={(e) => updateCategory(e, url.slug)} value={categories ? url.category_id : "default"}>
+                      <div className="form-group" >
+                        <select className="form-control" id="sel1" style={{width: "auto"}} onChange={(e) => updateCategory(e, url.slug)} value={categories ? url.category_id : "default"}>
                           <option value="default">
                             Select
                             </option>
