@@ -9,15 +9,15 @@ skip_before_action :verify_authenticity_token
   def update
     @url = Url.find_by_slug(params[:slug])
 
-      if @url
-        if @url.update(url_params)
-          render status: :ok, json: { urls: fetch_urls }
-        else
-        render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
-        end
+    if @url
+      if @url.update(url_params)
+        render status: :ok, json: { urls: fetch_urls }
       else
-        render status: :not_found, json: { errors: @url.errors.full_messages }
+      render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
       end
+    else
+      render status: :not_found, json: { errors: @url.errors.full_messages }
+    end
   end
 
   def create
@@ -47,6 +47,7 @@ skip_before_action :verify_authenticity_token
   end
 
   private
+  
     def url_params
       params.require(:url).permit(:original, :is_pinned, :category_id)
     end
