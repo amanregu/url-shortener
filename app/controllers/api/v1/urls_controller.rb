@@ -7,7 +7,7 @@ skip_before_action :verify_authenticity_token
   end
 
   def update
-    @url = Url.find_by_slug!(params[:slug])
+    @url = Url.find_by_slug(params[:slug])
 
       if @url
         if @url.update(url_params)
@@ -21,7 +21,7 @@ skip_before_action :verify_authenticity_token
   end
 
   def create
-    @url = Url.find_by_original!(params[:original])
+    @url = Url.find_by_original(params[:original])
 
     if @url 
       render status: :ok, json: { slug: @url.slug }
@@ -37,7 +37,7 @@ skip_before_action :verify_authenticity_token
   end
 
   def show
-    @url = Url.find_by_slug!(params[:slug])
+    @url = Url.find_by_slug(params[:slug])
 
     if @url
       render status: :ok, json: { original: @url.original }
