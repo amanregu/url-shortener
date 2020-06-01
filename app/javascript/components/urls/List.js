@@ -1,13 +1,22 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { NavLink, BrowserRouter as Router } from "react-router-dom"
 
 import Pin from "./Pin"
 
 const List = (props) => {
   const [urls, setUrls] = useState(props.urls)
-  const [categories] = useState(props.categories)
+  const [categories, setCategories] = useState([])
   console.log(props)
   console.log(categories)
+
+  useEffect(() => {
+    fetch(`/categories`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+      }
+    }).then(res => res.json()).then(res => setCategories(res.categories))
+  }, [])
 
   const handleClick = (slug, is_pinned) => {
     fetch(`/urls/${slug}`, {
@@ -45,9 +54,9 @@ const List = (props) => {
       <div className="container" >
         <div className="d-flex flex-row justify-content-between" >
           <h1 >List Of Shortened URLs</h1>
-            <NavLink to="/categories">
-              <h2>Mange Categories</h2>
-            </NavLink>
+          <NavLink to="/categories">
+            <h2>Mange Categories</h2>
+          </NavLink>
         </div>
         <table className="table table-bordered">
           <thead className="thead-dark" >
@@ -71,8 +80,8 @@ const List = (props) => {
                       <a href={url.original} target="_blank" >{url.original}</a>
                     </td>
                     <td className="col">
-                      <div>
-                        <select onChange={(e) => updateCategory(e, url.slug)} value={categories ? url.category_id : "default"}>
+                      <div className="form-group" >
+                        <select className="form-control" id="sel1" style={{width: "auto"}} onChange={(e) => updateCategory(e, url.slug)} value={categories ? url.category_id : "default"}>
                           <option value="default">
                             Select
                             </option>

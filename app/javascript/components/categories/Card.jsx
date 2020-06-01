@@ -65,6 +65,7 @@ const Card = (props) => {
                       <label>
                         <input className="form-control" type="text" value={currentCategory} onChange={e => setCurrentCategory(e.target.value)} name="title" />
                       </label>
+                      <input style={{width: "100px"}} className="btn btn-danger btn-sm" onClick={() => setModalStatus(false)} value="Cancel" />
                       <input className="btn btn-success" type="submit" value="Update" />
                     </div>
                   </form>
@@ -104,10 +105,10 @@ const Card = (props) => {
                         <h4>{category.title}</h4>
                       </td>
                       <td className="col">
-                        <a onClick={() => handleEdit(category.id, category.title)} >Edit</a>
+                        <a style={{ cursor: 'pointer' }} onClick={() => handleEdit(category.id, category.title)} >Edit</a>
                       </td>
                       <td className="col">
-                        <a onClick={() => handleDelete(category.id)} >Delete</a>
+                        <a style={{ cursor: 'pointer' }} onClick={() => handleDelete(category.id)} >Delete</a>
                       </td>
                     </tr>
                   </tbody>
