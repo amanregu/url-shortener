@@ -1,18 +1,18 @@
 class Api::V1::ClicksController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :fetch_clicks, only: [:create, :index]
+  before_action :fetch_clicks, only: :index
 
   def index
-    clicks_with_date = fetch_clicks.group_by { |click| click.created_at.strftime("%B %Y") }
-    clicks_with_url_id = fetch_clicks.group_by { |click| click.url_id }
-    render status: :ok, json: { clicks_with_date: clicks_with_date, clicks_with_url_id: clicks_with_url_id }
+    clicks_with_date = @clicks.group_by { |click| click.created_at.strftime("%B %Y") }
+    render status: :ok, json: { clicks_with_date: clicks_with_date, clicks_with_url_id: @clicks_with_url_id }
   end
 
   def create
     @click = Click.new(url_id: click_params[:url_id])
 
     if @click.save
-      render status: :ok, json: { click: @clicks }
+      fetch_clicks()
+      render status: :ok, json: { clicks_with_url_id: @clicks_with_url_id }
     else
       render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
     end
@@ -26,5 +26,6 @@ class Api::V1::ClicksController < ApplicationController
 
   def fetch_clicks
     @clicks = Click.all
+    @clicks_with_url_id = @clicks.group_by { |click| click.url_id }
   end
 end
