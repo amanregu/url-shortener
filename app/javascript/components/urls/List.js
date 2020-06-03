@@ -6,8 +6,7 @@ import Pin from "./Pin"
 const List = (props) => {
   const [urls, setUrls] = useState(props.urls)
   const [categories, setCategories] = useState([])
-  console.log(props)
-  console.log(categories)
+  const [clicks, setClicks] = useState([])
 
   useEffect(() => {
     fetch(`/api/v1/categories`, {
@@ -16,6 +15,15 @@ const List = (props) => {
         'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
       }
     }).then(res => res.json()).then(res => setCategories(res.categories))
+  }, [])
+
+  useEffect(() => {
+    fetch(`/api/v1/clicks`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+      }
+    }).then(res => res.json()).then(res => setClicks(res.clicks_with_url_id))
   }, [])
 
   const handleClick = (slug, is_pinned) => {
@@ -32,6 +40,27 @@ const List = (props) => {
         }
       })
     }).then(res => res.json()).then(res => setUrls(res.urls))
+  }
+
+  const handleRedirect = (url_id, slug) => {
+    fetch(`/api/v1/urls/${slug}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+      }
+    }).then(res => res.json()).then(res => window.open(res.original, "_blank")).
+       then(fetch(`/api/v1/clicks/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+        },
+        body: JSON.stringify({
+          "click": {
+            url_id: url_id
+          }
+        })
+       }).then(res => res.json()).then(res => setClicks(res.clicks_with_url_id)))
   }
 
   const updateCategory = (e, slug) => {
@@ -63,6 +92,7 @@ const List = (props) => {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Original URL</th>
+              <th scope="col">Visits</th>
               <th scope="col">Category</th>
               <th scope="col">Short URL</th>
             </tr>
@@ -78,6 +108,9 @@ const List = (props) => {
                     </td>
                     <td className="col">
                       <a href={url.original} target="_blank" >{url.original}</a>
+                    </td>
+                    <td className="col">
+                      {(clicks && clicks[url.id]) ? <div>{clicks[url.id].length}</div> : (<div>0</div>)}
                     </td>
                     <td className="col">
                       <div className="form-group" >
@@ -98,7 +131,7 @@ const List = (props) => {
                       </div>
                     </td>
                     <td className="col">
-                      <a href={shorted_url} target="_blank" >{shorted_url}</a>
+                      <a onClick={()=> handleRedirect(url.id, url.slug)} target="_blank" >{shorted_url}</a>
                     </td>
                   </tr>
                 </tbody>
