@@ -37,13 +37,12 @@ const List = () => {
       .then((res) => setClicks(res.clicks_with_url_id));
   }, []);
 
-  const handleClick = (slug, is_pinned) => {
-    fetch(`/api/v1/urls/${slug}`, {
+  const handleClick = (id, is_pinned) => {
+    fetch(`/api/v1/urls/${id}`, {
       method: "PATCH",
       headers: requestHeader,
       body: JSON.stringify({
         url: {
-          slug: slug,
           is_pinned: !is_pinned,
         },
       }),
@@ -73,8 +72,8 @@ const List = () => {
       );
   };
 
-  const updateCategory = (e, slug) => {
-    fetch(`/api/v1/urls/${slug}`, {
+  const updateCategory = (e, url_id) => {
+    fetch(`/api/v1/urls/${url_id}`, {
       method: "PATCH",
       headers: requestHeader,
       body: JSON.stringify({
@@ -119,7 +118,7 @@ const List = () => {
                         <tr>
                           <td
                             style={{ cursor: "pointer" }}
-                            onClick={() => handleClick(url.slug, url.is_pinned)}
+                            onClick={() => handleClick(url.id, url.is_pinned)}
                           >
                             <Pin isPinned={url.is_pinned} />
                           </td>
@@ -141,7 +140,7 @@ const List = () => {
                                 className="form-control"
                                 id="sel1"
                                 style={{ width: "auto" }}
-                                onChange={(e) => updateCategory(e, url.slug)}
+                                onChange={(e) => updateCategory(e, url.id)}
                                 value={categories ? url.category_id : "default"}
                               >
                                 <option value="default">Select</option>
@@ -162,7 +161,7 @@ const List = () => {
                           </td>
                           <td className="col">
                             <a
-                              onClick={() => handleRedirect(url.id, url.slug)}
+                              onClick={() => handleRedirect(url.id)}
                               target="_blank"
                             >
                               {shorted_url}
