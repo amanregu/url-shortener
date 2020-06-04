@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../shared/Header";
+import { requestHeader } from "../shared/requestHeader";
 
 const Report = () => {
   const [reports, setReports] = useState();
 
   useEffect(() => {
     fetch(`/api/v1/clicks`, {
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
-      },
+      headers: requestHeader,
     })
       .then((res) => res.json())
       .then((res) => setReports(res.clicks_with_date));

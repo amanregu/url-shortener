@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../shared/Header";
+import { requestHeader } from "../shared/requestHeader"
 
 const Card = () => {
   const [categories, setCategories] = useState([]);
@@ -11,10 +12,7 @@ const Card = () => {
 
   useEffect(() => {
     fetch(`/api/v1/categories`, {
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
-      },
+      headers: requestHeader,
     })
       .then((res) => res.json())
       .then((res) => setCategories(res.categories));
@@ -24,10 +22,7 @@ const Card = () => {
     e.preventDefault();
     fetch(`/api/v1/categories/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
-      },
+      headers: requestHeader,
       body: JSON.stringify({
         title: title,
       }),
@@ -40,10 +35,7 @@ const Card = () => {
   const handleDelete = (id) => {
     fetch(`/api/v1/categories/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
-      },
+      headers: requestHeader,
     })
       .then((res) => res.json())
       .then((res) => setCategories(res.categories));
@@ -59,10 +51,7 @@ const Card = () => {
     e.preventDefault();
     fetch(`/api/v1/categories/${currentId}`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
-      },
+      headers: requestHeader,
       body: JSON.stringify({
         title: currentCategory,
       }),
