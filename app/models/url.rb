@@ -1,5 +1,5 @@
 class Url < ApplicationRecord
-  before_validation :generate_slug
+  before_validation :generate_slug, on: [:create]
   has_many :clicks
   belongs_to :category, optional: true
   validates :original, presence: true, format: { with: URI::regexp(%w(http https)),
