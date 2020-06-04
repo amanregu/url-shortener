@@ -3,7 +3,7 @@ class Api::V1::UrlsController < ApplicationController
   before_action :fetch_urls, only: [:index, :update]
 
   def index
-    render status: :ok, json: { urls: @urls }
+    render status: :ok, json: { urls: @urls, host_url: ENV['HOST_URL'] }
   end
 
   def update

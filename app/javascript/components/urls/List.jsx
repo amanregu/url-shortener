@@ -9,6 +9,7 @@ const List = () => {
   const [urls, setUrls] = useState();
   const [categories, setCategories] = useState();
   const [clicks, setClicks] = useState();
+  const [hostUrl, setHostUrl] = useState();
 
   useEffect(() => {
     fetch(`/api/v1/categories`, {
@@ -23,7 +24,9 @@ const List = () => {
       headers: requestHeader,
     })
       .then((res) => res.json())
-      .then((res) => setUrls(res.urls));
+      .then((res) => {
+        setUrls(res.urls), setHostUrl(res.host_url)
+      });
   }, []);
 
   useEffect(() => {
@@ -109,7 +112,7 @@ const List = () => {
               </thead>
               {urls &&
                 urls.map((url) => {
-                  const shorted_url = `https://short.is/${url.slug}`;
+                  const shorted_url = `${hostUrl}/${url.slug}`;
                   return (
                     <>
                       <tbody key={url.id}>
