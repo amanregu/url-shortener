@@ -25,7 +25,7 @@ class Api::V1::ClicksController < ApplicationController
   end
 
   def fetch_clicks
-    @clicks = Click.all
+    @clicks = Click.order(created_at: :desc)
     @clicks_with_url_id = @clicks.group_by { |click| click.url_id }
   end
 end
