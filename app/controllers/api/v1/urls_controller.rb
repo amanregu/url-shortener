@@ -7,7 +7,7 @@ class Api::V1::UrlsController < ApplicationController
   end
 
   def update
-    @url = Url.find_by_slug(params[:slug])
+    @url = Url.find_by_id(params[:id])
 
     if @url
       if @url.update(url_params)
@@ -36,7 +36,7 @@ class Api::V1::UrlsController < ApplicationController
   end
 
   def show
-    @url = Url.find_by_slug(params[:slug])
+    @url = Url.find_by_slug(params[:id])
 
     if @url
       render status: :ok, json: { original: @url.original }
