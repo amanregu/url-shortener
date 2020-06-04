@@ -6,6 +6,6 @@ Rails.application.routes.draw do
       resources :clicks, only: [:index, :create]
     end
   end
-  root "api/v1/urls#index"
-  get '/*path' => 'api/v1/urls#index'
+  root "static#index"
+  get '/*path' => 'static#index'
 end
