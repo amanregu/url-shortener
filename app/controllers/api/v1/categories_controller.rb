@@ -1,15 +1,10 @@
 class Api::V1::CategoriesController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_category, only: [:show, :edit, :update, :destroy]
-  before_action :fetch_categories, only: [:create, :update, :destroy]
+  before_action :fetch_categories, only: [:index, :create, :update, :destroy]
 
   def index
-    @categories = Category.order(created_at: :desc)
     render status: :ok, json: { categories: @categories }
-  end
-
-  def new
-    @category = Category.new
   end
 
   def create

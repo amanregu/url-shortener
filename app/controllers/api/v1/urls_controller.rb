@@ -1,11 +1,9 @@
 class Api::V1::UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :fetch_urls, only: [:index, :update]
 
   def index
-    @urls = Url.order(is_pinned: :desc, updated_at: :desc)
-    @categories = Category.order(updated_at: :desc)
-
-      render status: :ok, json: { urls: @urls }
+    render status: :ok, json: { urls: @urls }
   end
 
   def update
@@ -13,7 +11,7 @@ class Api::V1::UrlsController < ApplicationController
 
     if @url
       if @url.update(url_params)
-        render status: :ok, json: { urls: fetch_urls }
+        render status: :ok, json: { urls: @urls }
       else
         render status: :unprocessable_entity, json: { errors: @url.errors.full_messages }
       end
@@ -29,7 +27,6 @@ class Api::V1::UrlsController < ApplicationController
       render status: :ok, json: { slug: @url.slug }
     else
       @url = Url.new(url_params)
-      @url.generate_slug
       if @url.save
         render status:	:created, json: { slug: @url.slug }
       else
