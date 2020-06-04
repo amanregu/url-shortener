@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import Header from "../shared/Header";
 import Pin from "./Pin";
 
-const List = (props) => {
-  const [urls, setUrls] = useState(props.urls);
+const List = () => {
+  const [urls, setUrls] = useState([]);
   const [categories, setCategories] = useState([]);
   const [clicks, setClicks] = useState([]);
 
@@ -17,6 +17,17 @@ const List = (props) => {
     })
       .then((res) => res.json())
       .then((res) => setCategories(res.categories));
+  }, []);
+
+  useEffect(() => {
+    fetch(`/api/v1/urls`, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setUrls(res.urls));
   }, []);
 
   useEffect(() => {
@@ -114,7 +125,7 @@ const List = (props) => {
               <th scope="col">Short URL</th>
             </tr>
           </thead>
-          {urls.map((url) => {
+          { urls && urls.map((url) => {
             const shorted_url = `https://short.is/${url.slug}`;
             return (
               <>

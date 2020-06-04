@@ -4,6 +4,8 @@ class Api::V1::UrlsController < ApplicationController
   def index
     @urls = Url.order(is_pinned: :desc, updated_at: :desc)
     @categories = Category.order(updated_at: :desc)
+
+      render status: :ok, json: { urls: @urls }
   end
 
   def update

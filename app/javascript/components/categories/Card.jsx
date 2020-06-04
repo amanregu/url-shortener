@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Header from "../shared/Header";
 
-const Card = (props) => {
-  const [categories, setCategories] = useState(props.categories);
+const Card = () => {
+  const [categories, setCategories] = useState([]);
   const [title, setTitle] = useState();
   const [modalStatus, setModalStatus] = useState(false);
   const [currentId, setCurrentId] = useState();
   const [currentCategory, setCurrentCategory] = useState();
+
+  useEffect(() => {
+    fetch(`/api/v1/categories`, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setCategories(res.categories));
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -100,25 +111,6 @@ const Card = (props) => {
         ) : (
           <div></div>
         )}
-        <div className="form-container text-center">
-          <form onSubmit={(e) => submitForm(e)}>
-            <label>
-              <input
-                className="form-control"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                name="title"
-                placeholder="e.g Education"
-              />
-            </label>
-            <input
-              className="btn btn-success"
-              type="submit"
-              value="Create New Category"
-            ></input>
-          </form>
-        </div>
         <div className="container">
           <div className="row">
             <div className="col">
@@ -170,6 +162,25 @@ const Card = (props) => {
           </table>
         </div>
       </div>
+      <div className="form-container text-center">
+          <form onSubmit={(e) => submitForm(e)}>
+            <label>
+              <input
+                className="form-control"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                name="title"
+                placeholder="e.g Education"
+              />
+            </label>
+            <input
+              className="btn btn-success"
+              type="submit"
+              value="Create New Category"
+            ></input>
+          </form>
+        </div>
     </>
   );
 };
