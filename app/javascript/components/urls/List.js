@@ -86,6 +86,9 @@ const List = (props) => {
           <NavLink to="/categories">
             <h2>Mange Categories</h2>
           </NavLink>
+          <NavLink to="/report">
+            <h2>Report</h2>
+          </NavLink>
         </div>
         <table className="table table-bordered">
           <thead className="thead-dark" >
