@@ -87,6 +87,9 @@ const Card = (props) => {
               <NavLink to="/">
                 <h2 style={{ cursor: 'pointer' }} >Manage URLs</h2>
               </NavLink>
+              <NavLink to="/report">
+                <h2 style={{ cursor: 'pointer' }} >Report</h2>
+              </NavLink>
           </div>
           <table className="table table-bordered">
             <thead className="thead-dark" >

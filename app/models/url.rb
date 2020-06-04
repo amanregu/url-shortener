@@ -1,4 +1,5 @@
 class Url < ApplicationRecord
+  has_many :clicks
   belongs_to :category, optional: true
   validates :original, presence: true, format: { with: URI::regexp(%w(http https)),
                                                  message: "Enter a valid URL." }, uniqueness: true

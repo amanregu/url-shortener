@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_01_042335) do
+ActiveRecord::Schema.define(version: 2020_06_02_150417) do
 
   create_table "categories", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_categories_on_title", unique: true
+  end
+
+  create_table "clicks", force: :cascade do |t|
+    t.integer "url_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["url_id"], name: "index_clicks_on_url_id"
   end
 
   create_table "urls", force: :cascade do |t|
@@ -31,5 +38,6 @@ ActiveRecord::Schema.define(version: 2020_06_01_042335) do
     t.index ["slug"], name: "index_urls_on_slug", unique: true
   end
 
+  add_foreign_key "clicks", "urls"
   add_foreign_key "urls", "categories"
 end
