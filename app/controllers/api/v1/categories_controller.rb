@@ -1,7 +1,7 @@
 class Api::V1::CategoriesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
-  before_action :fetch_categories, only: [:index, :create, :update, :destroy]
+  before_action :load_category, only: [:show, :edit, :update, :destroy]
+  before_action :load_categories, only: [:index, :create, :update, :destroy]
 
   def index
     render status: :ok, json: { categories: @categories }
@@ -35,11 +35,11 @@ class Api::V1::CategoriesController < ApplicationController
 
   private
 
-  def set_category
+  def load_category
     @category = Category.find(params[:id])
   end
 
-  def fetch_categories
+  def load_categories
     @categories = Category.order(created_at: :desc)
   end
 

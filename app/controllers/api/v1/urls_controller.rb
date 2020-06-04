@@ -1,6 +1,6 @@
 class Api::V1::UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :fetch_urls, only: [:index, :update]
+  before_action :load_urls, only: [:index, :update]
 
   def index
     render status: :ok, json: { urls: @urls, host_url: ENV['HOST_URL'] }
@@ -51,7 +51,7 @@ class Api::V1::UrlsController < ApplicationController
     params.require(:url).permit(:original, :is_pinned, :category_id)
   end
 
-  def fetch_urls
+  def load_urls
     @urls = Url.order(is_pinned: :desc, updated_at: :desc)
   end
 end
