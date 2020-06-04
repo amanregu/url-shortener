@@ -6,28 +6,28 @@ const Header = () => {
     <>
       <div className="d-flex flex-row justify-content-between">
         <NavLink to="/">
-          <a
+          <button
             className="btn btn-primary text-dark"
             style={{ cursor: "pointer" }}
           >
             Manage URLs
-          </a>
+          </button>
         </NavLink>
         <NavLink to="/categories">
-          <a
+          <button
             className="btn btn-primary text-dark"
             style={{ cursor: "pointer" }}
           >
             Manage Categories
-          </a>
+          </button>
         </NavLink>
         <NavLink to="/report">
-          <a
+          <button
             className="btn btn-primary text-dark"
             style={{ cursor: "pointer" }}
           >
             Reports
-          </a>
+          </button>
         </NavLink>
       </div>
     </>
