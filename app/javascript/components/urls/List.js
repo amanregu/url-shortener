@@ -1,96 +1,111 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 
-import Header from '../shared/Header'
-import Pin from "./Pin"
+import Header from "../shared/Header";
+import Pin from "./Pin";
 
 const List = (props) => {
-  const [urls, setUrls] = useState(props.urls)
-  const [categories, setCategories] = useState([])
-  const [clicks, setClicks] = useState([])
+  const [urls, setUrls] = useState(props.urls);
+  const [categories, setCategories] = useState([]);
+  const [clicks, setClicks] = useState([]);
 
   useEffect(() => {
     fetch(`/api/v1/categories`, {
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
-      }
-    }).then(res => res.json()).then(res => setCategories(res.categories))
-  }, [])
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setCategories(res.categories));
+  }, []);
 
   useEffect(() => {
     fetch(`/api/v1/clicks`, {
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
-      }
-    }).then(res => res.json()).then(res => setClicks(res.clicks_with_url_id))
-  }, [])
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => setClicks(res.clicks_with_url_id));
+  }, []);
 
   const handleClick = (slug, is_pinned) => {
     fetch(`/api/v1/urls/${slug}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
       },
       body: JSON.stringify({
-        "url": {
+        url: {
           slug: slug,
-          is_pinned: !is_pinned
-        }
-      })
-    }).then(res => res.json()).then(res => setUrls(res.urls))
-  }
+          is_pinned: !is_pinned,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => setUrls(res.urls));
+  };
 
   const handleRedirect = (url_id, slug) => {
     fetch(`/api/v1/urls/${slug}`, {
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
-      }
-    }).then(res => res.json()).then(res => window.open(res.original, "_blank")).
-       then(fetch(`/api/v1/clicks/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-          "click": {
-            url_id: url_id
-          }
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => window.open(res.original, "_blank"))
+      .then(
+        fetch(`/api/v1/clicks/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]')
+              .content,
+          },
+          body: JSON.stringify({
+            click: {
+              url_id: url_id,
+            },
+          }),
         })
-       }).then(res => res.json()).then(res => setClicks(res.clicks_with_url_id)))
-  }
+          .then((res) => res.json())
+          .then((res) => setClicks(res.clicks_with_url_id))
+      );
+  };
 
   const updateCategory = (e, slug) => {
     fetch(`/api/v1/urls/${slug}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('[name="csrf-token"]').content
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": document.querySelector('[name="csrf-token"]').content,
       },
       body: JSON.stringify({
-        "url": {
-          category_id: e.target.value
-        }
-      })
-    }).then(res => res.json()).then(res => setUrls(res.urls))
-  }
+        url: {
+          category_id: e.target.value,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => setUrls(res.urls));
+  };
 
   return (
     <>
-      <div className="container" >
-        <div className="row" >
-          <div className="col" >
-            <h1 >List Of Shortened URLs</h1>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h1>List Of Shortened URLs</h1>
           </div>
           <div className="col-5">
-            <Header/>
+            <Header />
           </div>
-      </div>
+        </div>
         <table className="table table-bordered">
-          <thead className="thead-dark" >
+          <thead className="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Original URL</th>
@@ -100,26 +115,39 @@ const List = (props) => {
             </tr>
           </thead>
           {urls.map((url) => {
-            const shorted_url = `https://short.is/${url.slug}`
+            const shorted_url = `https://short.is/${url.slug}`;
             return (
               <>
                 <tbody key={url.id}>
                   <tr>
-                    <td style={{ cursor: 'pointer' }} onClick={() => handleClick(url.slug, url.is_pinned)}>
+                    <td
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleClick(url.slug, url.is_pinned)}
+                    >
                       <Pin isPinned={url.is_pinned} />
                     </td>
                     <td className="col">
-                      <a href={url.original} target="_blank" >{url.original}</a>
+                      <a href={url.original} target="_blank">
+                        {url.original}
+                      </a>
                     </td>
                     <td className="col">
-                      {(clicks && clicks[url.id]) ? <div>{clicks[url.id].length}</div> : (<div>0</div>)}
+                      {clicks && clicks[url.id] ? (
+                        <div>{clicks[url.id].length}</div>
+                      ) : (
+                        <div>0</div>
+                      )}
                     </td>
                     <td className="col">
-                      <div className="form-group" >
-                        <select className="form-control" id="sel1" style={{width: "auto"}} onChange={(e) => updateCategory(e, url.slug)} value={categories ? url.category_id : "default"}>
-                          <option value="default">
-                            Select
-                            </option>
+                      <div className="form-group">
+                        <select
+                          className="form-control"
+                          id="sel1"
+                          style={{ width: "auto" }}
+                          onChange={(e) => updateCategory(e, url.slug)}
+                          value={categories ? url.category_id : "default"}
+                        >
+                          <option value="default">Select</option>
                           {categories.map((category) => {
                             return (
                               <>
@@ -127,23 +155,28 @@ const List = (props) => {
                                   {category.title}
                                 </option>
                               </>
-                            )
+                            );
                           })}
                         </select>
                       </div>
                     </td>
                     <td className="col">
-                      <a onClick={()=> handleRedirect(url.id, url.slug)} target="_blank" >{shorted_url}</a>
+                      <a
+                        onClick={() => handleRedirect(url.id, url.slug)}
+                        target="_blank"
+                      >
+                        {shorted_url}
+                      </a>
                     </td>
                   </tr>
                 </tbody>
               </>
-            )
+            );
           })}
         </table>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default List
+export default List;
