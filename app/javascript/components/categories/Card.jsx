@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { NavLink, BrowserRouter as Router } from 'react-router-dom'
+
+import Header from '../shared/Header'
 
 const Card = (props) => {
   const [categories, setCategories] = useState(props.categories)
@@ -82,14 +83,13 @@ const Card = (props) => {
           </form>
         </div>
         <div className="container" >
-          <div className="d-flex flex-row justify-content-between" >
-            <h1 >List of Categories</h1>
-              <NavLink to="/">
-                <h2 style={{ cursor: 'pointer' }} >Manage URLs</h2>
-              </NavLink>
-              <NavLink to="/report">
-                <h2 style={{ cursor: 'pointer' }} >Report</h2>
-              </NavLink>
+          <div className="row" >
+            <div className="col" >
+              <h1 >List of Categories</h1>
+            </div>
+            <div className="col-5">
+              <Header/>
+            </div>
           </div>
           <table className="table table-bordered">
             <thead className="thead-dark" >

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { NavLink, BrowserRouter as Router } from "react-router-dom"
 
+import Header from '../shared/Header'
 import Pin from "./Pin"
 
 const List = (props) => {
@@ -81,15 +81,14 @@ const List = (props) => {
   return (
     <>
       <div className="container" >
-        <div className="d-flex flex-row justify-content-between" >
-          <h1 >List Of Shortened URLs</h1>
-          <NavLink to="/categories">
-            <h2>Mange Categories</h2>
-          </NavLink>
-          <NavLink to="/report">
-            <h2>Report</h2>
-          </NavLink>
-        </div>
+        <div className="row" >
+          <div className="col" >
+            <h1 >List Of Shortened URLs</h1>
+          </div>
+          <div className="col-5">
+            <Header/>
+          </div>
+      </div>
         <table className="table table-bordered">
           <thead className="thead-dark" >
             <tr>

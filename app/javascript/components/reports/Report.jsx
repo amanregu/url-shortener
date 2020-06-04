@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, BrowserRouter as Router } from "react-router-dom";
+
+import Header from '../shared/Header'
 
 const Report = () => {
 
@@ -19,14 +20,14 @@ const Report = () => {
   return (
     <>
       <div className="container">
-      <div className="d-flex flex-row justify-content-between" >
-              <NavLink to="/">
-                <h2 style={{ cursor: 'pointer' }} >Manage URLs</h2>
-              </NavLink>
-              <NavLink to="/categories">
-                <h2 style={{ cursor: 'pointer' }} >Manage Categories</h2>
-              </NavLink>
-          </div>
+        <div className="row" >
+            <div className="col" >
+              <h1 >Monthly Visits</h1>
+            </div>
+            <div className="col-5">
+              <Header/>
+            </div>
+        </div>
         <table className="table table-bordered">
           <thead className="thead-dark">
             <tr>
