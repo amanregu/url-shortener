@@ -8,7 +8,7 @@ namespace :app do
     status_code = session.response.status
 
     if status_code == 200
-      puts "The shortened url of #{ENV['URL']} is https://short.is/#{response["slug"]}."
+      puts "The shortened url of #{ENV['URL']} is #{ENV['HOST_URL']}/#{response["slug"]}."
     else
       puts response["errors"]
     end
@@ -16,8 +16,9 @@ namespace :app do
 
   desc "generate decoded url"
   task decode: :environment do
+    puts ENV['HOST_URL']
     slug = ENV['SHORTURL'].last(8)
-    session.get "https://localhost:3000/api/v1/urls/#{slug}"
+    session.get "#{ENV['HOST_URL']}/api/v1/urls/#{slug}"
     response = JSON.parse(session.response.body)
     status_code = session.response.status
 
