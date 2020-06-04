@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../shared/Header";
-import { requestHeader } from "../shared/requestHeader"
+import { requestHeader } from "../shared/requestHeader";
 
 const Card = () => {
   const [categories, setCategories] = useState([]);
@@ -109,67 +109,75 @@ const Card = () => {
               <Header />
             </div>
           </div>
-          <table className="table table-bordered">
-            <thead className="thead-dark">
-              <tr>
-                <th scope="col">Category Title</th>
-                <th scope="col">#</th>
-                <th scope="col">#</th>
-              </tr>
-            </thead>
-            {categories.map((category) => {
-              return (
-                <>
-                  <tbody>
-                    <tr>
-                      <td className="col">
-                        <h4>{category.title}</h4>
-                      </td>
-                      <td className="col">
-                        <a
-                          style={{ cursor: "pointer" }}
-                          onClick={() =>
-                            handleEdit(category.id, category.title)
-                          }
-                        >
-                          Edit
-                        </a>
-                      </td>
-                      <td className="col">
-                        <a
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleDelete(category.id)}
-                        >
-                          Delete
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </>
-              );
-            })}
-          </table>
+          {categories ? (
+            <>
+              <table className="table table-bordered">
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">Category Title</th>
+                    <th scope="col">#</th>
+                    <th scope="col">#</th>
+                  </tr>
+                </thead>
+                {categories.map((category) => {
+                  return (
+                    <>
+                      <tbody>
+                        <tr>
+                          <td className="col">
+                            <h4>{category.title}</h4>
+                          </td>
+                          <td className="col">
+                            <a
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                handleEdit(category.id, category.title)
+                              }
+                            >
+                              Edit
+                            </a>
+                          </td>
+                          <td className="col">
+                            <a
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleDelete(category.id)}
+                            >
+                              Delete
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </>
+                  );
+                })}
+              </table>
+            </>
+          ) : (
+            <>
+              <Spinner />
+            </>
+          )}
         </div>
       </div>
       <div className="form-container text-center">
-          <form onSubmit={(e) => submitForm(e)}>
-            <label>
-              <input
-                className="form-control"
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                name="title"
-                placeholder="e.g Education"
-              />
-            </label>
+        <form onSubmit={(e) => submitForm(e)}>
+          <label>
             <input
-              className="btn btn-success"
-              type="submit"
-              value="Create New Category"
-            ></input>
-          </form>
-        </div>
+              className="form-control"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              name="title"
+              placeholder="e.g Education"
+            />
+          </label>
+          <input
+            className="btn btn-success"
+            type="submit"
+            value="Create New Category"
+          ></input>
+        </form>
+      </div>
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../shared/Header";
+import Spinner from "../shared/Spinner";
 import { requestHeader } from "../shared/requestHeader";
 
 const Report = () => {
@@ -25,32 +26,39 @@ const Report = () => {
             <Header />
           </div>
         </div>
-        <table className="table table-bordered">
-          <thead className="thead-dark">
-            <tr>
-              <th scope="col">Date</th>
-              <th scope="col">Clicks</th>
-            </tr>
-          </thead>
-          {reports &&
-            Object.keys(reports).map((date) => {
-              return (
-                <>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <h4>{date}</h4>
-                      </td>
-                      <td>
-                        <h4>{reports[date].length}</h4>
-                      </td>
-                    </tr>
-                  </tbody>
-                </>
-              );
-              console.log(reports[date].length);
-            })}
-        </table>
+        {reports ? (
+          <>
+            <table className="table table-bordered">
+              <thead className="thead-dark">
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Clicks</th>
+                </tr>
+              </thead>
+              {reports &&
+                Object.keys(reports).map((date) => {
+                  return (
+                    <>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <h4>{date}</h4>
+                          </td>
+                          <td>
+                            <h4>{reports[date].length}</h4>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </>
+                  );
+                })}
+            </table>
+          </>
+        ) : (
+          <>
+            <Spinner />
+          </>
+        )}
       </div>
     </>
   );
