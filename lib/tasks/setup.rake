@@ -75,8 +75,7 @@ end
 
 def create_categories(categories)
   categories.each do |category|
-    puts category
-    Category.new(title: category)
+   Category.create(title: category)
   end
 end
 
